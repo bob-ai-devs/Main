@@ -318,12 +318,11 @@ else:
     for start in range(0, len(filtered_apps), 4):
         row_apps = filtered_apps[start:start + 4]
         count = len(row_apps)
-    
-        # Add empty columns to center the last row.
-        left_space = (4 - count) // 2
         cols = st.columns(4, gap="medium")
+        if count == 1:
+            cols = st.columns(5, gap="medium")
 
-        for col, app in zip(cols, row_apps):
+        for col, app in zip(cols[3], row_apps):
             with col:
                 # Do not render unconfigured placeholder links as working buttons.
                 url = app["url"].strip()
