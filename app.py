@@ -317,6 +317,10 @@ else:
     # Four cards per row on wide screens; Streamlit adapts on smaller screens.
     for start in range(0, len(filtered_apps), 4):
         row_apps = filtered_apps[start:start + 4]
+        count = len(row_apps)
+    
+        # Add empty columns to center the last row.
+        left_space = (4 - count) // 2
         cols = st.columns(4, gap="medium")
 
         for col, app in zip(cols, row_apps):
