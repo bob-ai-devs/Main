@@ -7,7 +7,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Bank of Baroda | Application Portal",
-    page_icon="🏦",  # Optional: replace with your preferred browser-tab emoji
+    page_icon="🏠",  # Optional: replace with your preferred browser-tab emoji
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -26,13 +26,9 @@ APP_LINKS = [
     {"name": "Cross-Selling Engine", "description": "Predict the next-best products for every customer", "icon": "🎯", "url": "https://cross-selling-bob-dev.streamlit.app/"},
     {"name": "Nearby Pincode Comparator", "description": "Compare nearby pincodes based on 📌 Area Centroids vs 🏤 Post Office Locations", "icon": "📍", "url": "https://pin-bob-dev.streamlit.app/"},
     {"name": "Multilingual Product Assistant", "description": "BOB banking products in their own language", "icon": "💬", "url": "https://bob-assistant-bob-dev.streamlit.app/"},
-    {"name": "Application 10", "description": "Add a short description for this application.", "icon": "🌱", "url": "https://REPLACE-WITH-LINK-10"},
-    {"name": "Application 11", "description": "Add a short description for this application.", "icon": "🔎", "url": "https://REPLACE-WITH-LINK-11"},
-    {"name": "Application 12", "description": "Add a short description for this application.", "icon": "⚙️", "url": "https://REPLACE-WITH-LINK-12"},
-    {"name": "Application 13", "description": "Add a short description for this application.", "icon": "💬", "url": "https://REPLACE-WITH-LINK-13"},
-    {"name": "Application 14", "description": "Add a short description for this application.", "icon": "📂", "url": "https://REPLACE-WITH-LINK-14"},
-    {"name": "Application 15", "description": "Add a short description for this application.", "icon": "⚡", "url": "https://REPLACE-WITH-LINK-15"},
-    {"name": "Application 16", "description": "Add a short description for this application.", "icon": "🧩", "url": "https://REPLACE-WITH-LINK-16"},
+    {"name": "Enterprise Explainable Credit Risk", "description": "Credit Risk Intelligence Platform", "icon": "🏦", "url": "https://ecrf-bob-dev.streamlit.app/"},
+    {"name": "Emotion-Aware Collections", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
+    {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
 ]
 
 # -----------------------------
