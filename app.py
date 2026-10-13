@@ -29,8 +29,6 @@ APP_LINKS = [
     {"name": "Enterprise Explainable Credit Risk", "description": "Credit Risk Intelligence Platform", "icon": "🏦", "url": "https://ecrf-bob-dev.streamlit.app/"},
     {"name": "Emotion-Aware Collections & Service Calls", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
     {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
-    {"name": "News Risk Intelligence2", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
-    {"name": "News Risk Intelligence3", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
 ]
 
 # -----------------------------
