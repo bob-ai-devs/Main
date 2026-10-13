@@ -258,7 +258,7 @@ st.markdown(
     }}
 
     .app-number {{
-        color: {BOB_ORANGE_DEEP};
+        color: var(--btn);
         text-transform: uppercase;
         font-size: 0.68rem;
         font-weight: 800;
