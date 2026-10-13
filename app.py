@@ -1,3 +1,7 @@
+import colorsys
+import html
+import random
+
 import streamlit as st
 
 # ============================================================
@@ -30,6 +34,43 @@ APP_LINKS = [
     {"name": "Emotion-Aware Collections & Service Calls", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
     {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
 ]
+
+
+# -----------------------------
+# RANDOM AESTHETIC CARD COLOURS
+# -----------------------------
+def _hex(h, s, l):
+    r, g, b = colorsys.hls_to_rgb(h % 1, l, s)
+    return "#{:02X}{:02X}{:02X}".format(int(r * 255), int(g * 255), int(b * 255))
+
+
+def generate_palettes(n):
+    """Generate n pastel palettes with well-spread random hues (golden-ratio spacing)."""
+    start = random.random()
+    hues = [(start + i * 0.381966) % 1 for i in range(n)]
+    random.shuffle(hues)
+
+    palettes = []
+    for h in hues:
+        h = (h + random.uniform(-0.015, 0.015)) % 1
+        s = random.uniform(0.55, 0.80)
+        palettes.append({
+            "bg":           _hex(h, min(s + 0.15, 0.95), 0.955),  # soft card background
+            "accent":       _hex(h, s * 0.75, 0.55),              # border / top strip
+            "icon_bg":      _hex(h, min(s + 0.10, 0.90), 0.885),  # icon tile
+            "bg_hover":     _hex(h, min(s + 0.15, 0.95), 0.985),  # lighter on hover
+            "accent_hover": _hex(h, s * 0.65, 0.74),              # lighter border on hover
+        })
+    return palettes
+
+
+# Generated once per Streamlit session (new random colours on each fresh load).
+if "card_color_map_v2" not in st.session_state:
+    palettes = generate_palettes(len(APP_LINKS))
+    st.session_state.card_color_map_v2 = {
+        app["name"]: palettes[i] for i, app in enumerate(APP_LINKS)
+    }
+
 
 # -----------------------------
 # BRAND COLOURS
@@ -160,19 +201,21 @@ st.markdown(
         height: 100%;
         box-sizing: border-box;
         padding: 1.15rem 1.1rem 1.05rem 1.1rem;
-        border: 1px solid #e1e7f0;
-        border-top: 4px solid {BOB_ORANGE};
         border-radius: 16px;
-        background: rgba(255,255,255,0.96);
         box-shadow: 0 5px 16px rgba(18,40,76,0.055);
-        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+        transition: transform 160ms ease, box-shadow 160ms ease,
+                    border-color 160ms ease, background 160ms ease;
         margin-bottom: 0.2rem;
+        background: var(--card-bg);
+        border: 1px solid var(--card-accent);
+        border-top: 5px solid var(--card-accent);
     }}
 
     .app-card:hover {{
         transform: translateY(-4px);
-        border-color: rgba(247,148,29,0.65);
-        box-shadow: 0 12px 24px rgba(18,40,76,0.12);
+        background: var(--card-bg-hover);
+        border-color: var(--card-accent-hover);
+        box-shadow: 0 12px 24px rgba(18,40,76,0.10);
     }}
 
     .app-card-top {{
@@ -190,8 +233,8 @@ st.markdown(
         width: 48px;
         height: 48px;
         border-radius: 13px;
-        background: linear-gradient(145deg, #fff0dd, #fff8f1);
-        border: 1px solid #ffe0b8;
+        background: var(--icon-bg);
+        border: 1px solid var(--card-accent-hover);
         font-size: 1.55rem;
     }}
 
@@ -321,15 +364,15 @@ else:
         if count == 1:
             cols = st.columns([1.5, 1, 1.5], gap="medium")
             positions = [1]       # 2nd of 3
-        
+
         elif count == 2:
             cols = st.columns([1, 1, 1, 1], gap="medium")
             positions = [1, 2]    # 2nd and 3rd of 4
-        
+
         elif count == 3:
             cols = st.columns([0.5, 1, 1, 1, 0.5], gap="medium")
             positions = [1, 2, 3] # 2nd to 4th of 5
-        
+
         else:
             cols = st.columns(4, gap="medium")
             positions = [0, 1, 2, 3]  # Default: 4 columns
@@ -350,15 +393,20 @@ else:
                 )
 
                 # Escape user-editable text before embedding it in HTML.
-                import html
                 name = html.escape(str(app["name"]))
                 description = html.escape(str(app["description"]))
                 icon = html.escape(str(app["icon"]))
                 number = APP_LINKS.index(app) + 1
+                c = st.session_state.card_color_map_v2[app["name"]]
 
                 st.markdown(
                     f"""
-                    <div class="app-card">
+                    <div class="app-card" style="
+                        --card-bg:{c['bg']};
+                        --card-accent:{c['accent']};
+                        --card-bg-hover:{c['bg_hover']};
+                        --card-accent-hover:{c['accent_hover']};
+                        --icon-bg:{c['icon_bg']};">
                         <div class="app-card-top">
                             <div class="app-icon">{icon}</div>
                             <div>
