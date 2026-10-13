@@ -44,29 +44,54 @@ def _hex(h, s, l):
     return "#{:02X}{:02X}{:02X}".format(int(r * 255), int(g * 255), int(b * 255))
 
 
-def generate_palettes(n):
-    """Generate n pastel palettes whose hues are guaranteed to differ by at least
-    MIN_HUE_GAP (5% of the colour wheel = 18 degrees) whenever n allows it."""
-    MIN_HUE_GAP = 0.05
-    step = 1 / n                                    # even spacing around the wheel
-    # Jitter is capped so two neighbouring hues can never get closer than MIN_HUE_GAP.
-    jitter = max(0.0, min(0.01, (step - MIN_HUE_GAP) / 2))
+def _luma(hex_colour):
+    r, g, b = (int(hex_colour[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    return 0.299 * r + 0.587 * g + 0.114 * b
 
-    start = random.random()
-    hues = [(start + i * step + random.uniform(-jitter, jitter)) % 1 for i in range(n)]
-    random.shuffle(hues)                            # random order, so neighbours differ too
+
+def _hex_luma(h, s, target):
+    """Colour of the given hue/saturation whose perceived brightness equals `target`.
+    Keeps blues, yellows, reds etc. equally bright, so dark shades don't all turn
+    into the same maroon/olive."""
+    lo, hi = 0.04, 0.96
+    for _ in range(24):
+        mid = (lo + hi) / 2
+        if _luma(_hex(h, s, mid)) < target:
+            lo = mid
+        else:
+            hi = mid
+    return _hex(h, s, (lo + hi) / 2)
+
+
+# Hand-picked hue anchors (degrees) covering clearly different colour families:
+# crimson, orange, amber, lime, green, teal, cyan, sky, blue, indigo, violet, magenta, pink.
+# Every pair is at least 18 degrees (5% of the wheel) apart.
+HUE_ANCHORS = [352, 28, 48, 78, 128, 162, 188, 212, 236, 262, 288, 314, 334]
+
+
+def generate_palettes(n):
+    """Generate n palettes whose hues are all at least 5% of the colour wheel apart
+    (when n <= 13) and belong to clearly different colour families."""
+    if n <= len(HUE_ANCHORS):
+        hues = random.sample(HUE_ANCHORS, n)                      # distinct families, random pick
+        hues = [(h + random.uniform(-2, 2)) / 360 for h in hues]  # tiny jitter keeps >= 5% gap
+    else:
+        step = 1 / n                                              # many cards: spread evenly
+        start = random.random()
+        hues = [(start + i * step) % 1 for i in range(n)]
+        random.shuffle(hues)
 
     palettes = []
     for h in hues:
-        s = random.uniform(0.55, 0.80)
+        s = random.uniform(0.62, 0.85)
         palettes.append({
-            "bg":           _hex(h, min(s + 0.15, 0.95), 0.955),  # soft card background
-            "accent":       _hex(h, s * 0.75, 0.55),              # border / top strip
-            "icon_bg":      _hex(h, min(s + 0.10, 0.90), 0.885),  # icon tile
-            "bg_hover":     _hex(h, min(s + 0.15, 0.95), 0.985),  # lighter on hover
-            "accent_hover": _hex(h, s * 0.65, 0.74),              # lighter border on hover
-            "button":       _hex(h, min(s + 0.05, 0.85), 0.36),   # darker variant for button
-            "button_end":   _hex(h + 0.02, min(s + 0.05, 0.85), 0.28),  # gradient end (deeper)
+            "bg":           _hex(h, 0.90, 0.935),                 # soft but clearly tinted card
+            "bg_hover":     _hex(h, 0.90, 0.972),                 # lighter on hover
+            "icon_bg":      _hex(h, 0.85, 0.855),                 # icon tile
+            "accent":       _hex_luma(h, s, 0.60),                # border / top strip
+            "accent_hover": _hex_luma(h, s, 0.76),                # lighter border on hover
+            "button":       _hex_luma(h, min(s + 0.05, 0.9), 0.36),   # darker variant for button
+            "button_end":   _hex_luma(h + 0.015, min(s + 0.05, 0.9), 0.28),  # gradient end
         })
     return palettes
 
@@ -76,7 +101,7 @@ REQUIRED_KEYS = {"bg", "accent", "icon_bg", "bg_hover", "accent_hover", "button"
 
 
 def _palettes_valid():
-    cmap = st.session_state.get("card_color_map_v4")
+    cmap = st.session_state.get("card_color_map_v5")
     return (
         isinstance(cmap, dict)
         and all(app["name"] in cmap and REQUIRED_KEYS <= set(cmap[app["name"]]) for app in APP_LINKS)
@@ -86,7 +111,7 @@ def _palettes_valid():
 # Regenerate if missing or stale (e.g. cached by an older version of this code).
 if not _palettes_valid():
     palettes = generate_palettes(len(APP_LINKS))
-    st.session_state.card_color_map_v4 = {
+    st.session_state.card_color_map_v5 = {
         app["name"]: palettes[i] for i, app in enumerate(APP_LINKS)
     }
 
@@ -258,7 +283,7 @@ st.markdown(
     }}
 
     .app-number {{
-        color: var(--btn-end);
+        color: var(--btn) 100%;
         text-transform: uppercase;
         font-size: 0.68rem;
         font-weight: 800;
@@ -416,7 +441,7 @@ else:
                 description = html.escape(str(app["description"]))
                 icon = html.escape(str(app["icon"]))
                 number = APP_LINKS.index(app) + 1
-                c = st.session_state.card_color_map_v4[app["name"]]
+                c = st.session_state.card_color_map_v5[app["name"]]
 
                 st.markdown(
                     f"""
