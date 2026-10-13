@@ -314,22 +314,13 @@ filtered_apps = [
 if not filtered_apps:
     st.info("No applications match your search. Try another keyword.")
 else:
-    # Four cards per row, with incomplete rows centered.
+    # Four cards per row on wide screens; Streamlit adapts on smaller screens.
     for start in range(0, len(filtered_apps), 4):
         row_apps = filtered_apps[start:start + 4]
-        count = len(row_apps)
+        cols = st.columns(4, gap="medium")
 
-        # Use 12 columns to center 1, 2, or 3 remaining cards.
-        cols = st.columns(12, gap="small")
-
-        # Each application occupies 3 of the 12 columns.
-        # Center the incomplete row.
-        left_offset = (12 - (count * 3)) // 2
-
-        for i, app in enumerate(row_apps):
-            col_index = left_offset + (i * 3)
-
-            with cols[col_index]:
+        for col, app in zip(cols, row_apps):
+            with col:
                 # Do not render unconfigured placeholder links as working buttons.
                 url = app["url"].strip()
                 is_configured = (
