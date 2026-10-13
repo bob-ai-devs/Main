@@ -60,6 +60,8 @@ def generate_palettes(n):
             "icon_bg":      _hex(h, min(s + 0.10, 0.90), 0.885),  # icon tile
             "bg_hover":     _hex(h, min(s + 0.15, 0.95), 0.985),  # lighter on hover
             "accent_hover": _hex(h, s * 0.65, 0.74),              # lighter border on hover
+            "button":       _hex(h, min(s + 0.05, 0.85), 0.36),   # darker variant for button
+            "button_end":   _hex(h + 0.02, min(s + 0.05, 0.85), 0.28),  # gradient end (deeper)
         })
     return palettes
 
@@ -271,10 +273,10 @@ st.markdown(
         text-align: center;
         text-decoration: none !important;
         color: #ffffff !important;
-        background: linear-gradient(100deg, {BOB_ORANGE} 0%, {BOB_ORANGE_DEEP} 100%);
+        background: linear-gradient(100deg, var(--btn) 0%, var(--btn-end) 100%);
         font-weight: 750;
         font-size: 0.88rem;
-        box-shadow: 0 4px 10px rgba(232,83,27,0.16);
+        box-shadow: 0 4px 10px rgba(18,40,76,0.18);
         transition: filter 150ms ease, transform 150ms ease;
     }}
 
@@ -406,7 +408,9 @@ else:
                         --card-accent:{c['accent']};
                         --card-bg-hover:{c['bg_hover']};
                         --card-accent-hover:{c['accent_hover']};
-                        --icon-bg:{c['icon_bg']};">
+                        --icon-bg:{c['icon_bg']};
+                        --btn:{c['button']};
+                        --btn-end:{c['button_end']};">
                         <div class="app-card-top">
                             <div class="app-icon">{icon}</div>
                             <div>
