@@ -27,7 +27,7 @@ APP_LINKS = [
     {"name": "Nearby Pincode Comparator", "description": "Compare nearby pincodes based on 📌 Area Centroids vs 🏤 Post Office Locations", "icon": "📍", "url": "https://pin-bob-dev.streamlit.app/"},
     {"name": "Multilingual Product Assistant", "description": "BOB banking products in their own language", "icon": "💬", "url": "https://bob-assistant-bob-dev.streamlit.app/"},
     {"name": "Enterprise Explainable Credit Risk", "description": "Credit Risk Intelligence Platform", "icon": "🏦", "url": "https://ecrf-bob-dev.streamlit.app/"},
-    {"name": "Emotion-Aware Collections", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
+    {"name": "Emotion-Aware Collections & Service Calls", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
     {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
 ]
 
