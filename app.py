@@ -45,14 +45,19 @@ def _hex(h, s, l):
 
 
 def generate_palettes(n):
-    """Generate n pastel palettes with well-spread random hues (golden-ratio spacing)."""
+    """Generate n pastel palettes whose hues are guaranteed to differ by at least
+    MIN_HUE_GAP (5% of the colour wheel = 18 degrees) whenever n allows it."""
+    MIN_HUE_GAP = 0.05
+    step = 1 / n                                    # even spacing around the wheel
+    # Jitter is capped so two neighbouring hues can never get closer than MIN_HUE_GAP.
+    jitter = max(0.0, min(0.01, (step - MIN_HUE_GAP) / 2))
+
     start = random.random()
-    hues = [(start + i * 0.381966) % 1 for i in range(n)]
-    random.shuffle(hues)
+    hues = [(start + i * step + random.uniform(-jitter, jitter)) % 1 for i in range(n)]
+    random.shuffle(hues)                            # random order, so neighbours differ too
 
     palettes = []
     for h in hues:
-        h = (h + random.uniform(-0.015, 0.015)) % 1
         s = random.uniform(0.55, 0.80)
         palettes.append({
             "bg":           _hex(h, min(s + 0.15, 0.95), 0.955),  # soft card background
@@ -71,7 +76,7 @@ REQUIRED_KEYS = {"bg", "accent", "icon_bg", "bg_hover", "accent_hover", "button"
 
 
 def _palettes_valid():
-    cmap = st.session_state.get("card_color_map_v3")
+    cmap = st.session_state.get("card_color_map_v4")
     return (
         isinstance(cmap, dict)
         and all(app["name"] in cmap and REQUIRED_KEYS <= set(cmap[app["name"]]) for app in APP_LINKS)
@@ -81,7 +86,7 @@ def _palettes_valid():
 # Regenerate if missing or stale (e.g. cached by an older version of this code).
 if not _palettes_valid():
     palettes = generate_palettes(len(APP_LINKS))
-    st.session_state.card_color_map_v3 = {
+    st.session_state.card_color_map_v4 = {
         app["name"]: palettes[i] for i, app in enumerate(APP_LINKS)
     }
 
@@ -411,7 +416,7 @@ else:
                 description = html.escape(str(app["description"]))
                 icon = html.escape(str(app["icon"]))
                 number = APP_LINKS.index(app) + 1
-                c = st.session_state.card_color_map_v3[app["name"]]
+                c = st.session_state.card_color_map_v4[app["name"]]
 
                 st.markdown(
                     f"""
