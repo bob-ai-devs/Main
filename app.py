@@ -319,8 +319,8 @@ else:
         count = len(row_apps)
 
         if count == 1:
-            cols = st.columns(3, gap="medium")
-            positions = [1]       # 2nd of 3
+            cols = st.columns([1, 1, 2, 1, 1], gap="medium")
+            positions = [2]       # 2nd of 3
 
         elif count == 2:
             cols = st.columns(4, gap="medium")
