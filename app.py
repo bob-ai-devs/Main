@@ -67,9 +67,21 @@ def generate_palettes(n):
 
 
 # Generated once per Streamlit session (new random colours on each fresh load).
-if "card_color_map_v2" not in st.session_state:
+REQUIRED_KEYS = {"bg", "accent", "icon_bg", "bg_hover", "accent_hover", "button", "button_end"}
+
+
+def _palettes_valid():
+    cmap = st.session_state.get("card_color_map_v3")
+    return (
+        isinstance(cmap, dict)
+        and all(app["name"] in cmap and REQUIRED_KEYS <= set(cmap[app["name"]]) for app in APP_LINKS)
+    )
+
+
+# Regenerate if missing or stale (e.g. cached by an older version of this code).
+if not _palettes_valid():
     palettes = generate_palettes(len(APP_LINKS))
-    st.session_state.card_color_map_v2 = {
+    st.session_state.card_color_map_v3 = {
         app["name"]: palettes[i] for i, app in enumerate(APP_LINKS)
     }
 
@@ -399,7 +411,7 @@ else:
                 description = html.escape(str(app["description"]))
                 icon = html.escape(str(app["icon"]))
                 number = APP_LINKS.index(app) + 1
-                c = st.session_state.card_color_map_v2[app["name"]]
+                c = st.session_state.card_color_map_v3[app["name"]]
 
                 st.markdown(
                     f"""
