@@ -319,16 +319,16 @@ else:
         count = len(row_apps)
 
         if count == 1:
-            cols = st.columns(5, gap="medium")
-            positions = [2]       # 3rd of 5
+            cols = st.columns(3, gap="medium")
+            positions = [1]       # 2nd of 3
 
         elif count == 2:
             cols = st.columns(4, gap="medium")
             positions = [1, 2]    # 2nd and 3rd of 4
 
         elif count == 3:
-            cols = st.columns(5, gap="medium")
-            positions = [1, 2, 3] # 2nd to 4th of 5
+            cols = st.columns(3, gap="medium")
+            positions = [0, 2] # 1st and 3rd of 3
 
         else:
             cols = st.columns(4, gap="medium")
