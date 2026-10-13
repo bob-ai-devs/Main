@@ -314,17 +314,32 @@ filtered_apps = [
 if not filtered_apps:
     st.info("No applications match your search. Try another keyword.")
 else:
-    # Four cards per row on wide screens; Streamlit adapts on smaller screens.
-    for start in range(0, len(filtered_apps), 4):
-        row_apps = filtered_apps[start:start + 4]
+    for start in range(0, len(filtered_apps), 5):
+        row_apps = filtered_apps[start:start + 5]
         count = len(row_apps)
-        cols = st.columns(4, gap="medium")
+
         if count == 1:
             cols = st.columns(5, gap="medium")
-            cols = cols[3]
+            positions = [2]  # 3rd of 5
 
-        for col, app in zip(cols, row_apps):
-            with col:
+        elif count == 2:
+            cols = st.columns(4, gap="medium")
+            positions = [1, 2]  # 2nd and 3rd of 4
+
+        elif count == 3:
+            cols = st.columns(5, gap="medium")
+            positions = [1, 2, 3]  # 2nd to 4th of 5
+
+        elif count == 4:
+            cols = st.columns(4, gap="medium")
+            positions = [0, 1, 2, 3]
+
+        else:
+            cols = st.columns(5, gap="medium")
+            positions = [0, 1, 2, 3, 4]
+
+        for pos, app in zip(positions, row_apps):
+            with cols[pos]:
                 # Do not render unconfigured placeholder links as working buttons.
                 url = app["url"].strip()
                 is_configured = (
