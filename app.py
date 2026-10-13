@@ -328,7 +328,7 @@ else:
 
         elif count == 3:
             cols = st.columns(3, gap="medium")
-            positions = [0, 2] # 1st and 3rd of 3
+            positions = [0, 1, 2] # 1st to 3rd of 3
 
         else:
             cols = st.columns(4, gap="medium")
