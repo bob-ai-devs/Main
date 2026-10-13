@@ -16,7 +16,7 @@ st.set_page_config(
 # APP CONFIGURATION — EDIT HERE
 # -----------------------------
 APP_LINKS = [
-    {"name": "Application 01", "description": "Add a short description for this application.", "icon": "🔗", "url": "https://REPLACE-WITH-LINK-01"},
+    {"name": "Financial Risk Analyzer", "description": "AI-assisted fundamental risk analysis, powered by Gemini + Yahoo Finance", "icon": "📊", "url": "https://financial-risk-bob-dev.streamlit.app"},
     {"name": "Application 02", "description": "Add a short description for this application.", "icon": "📊", "url": "https://REPLACE-WITH-LINK-02"},
     {"name": "Application 03", "description": "Add a short description for this application.", "icon": "🤖", "url": "https://REPLACE-WITH-LINK-03"},
     {"name": "Application 04", "description": "Add a short description for this application.", "icon": "🌐", "url": "https://REPLACE-WITH-LINK-04"},
