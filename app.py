@@ -17,7 +17,7 @@ st.set_page_config(
 # -----------------------------
 APP_LINKS = [
     {"name": "Financial Risk Analyzer", "description": "AI-assisted fundamental risk analysis, powered by Gemini + Yahoo Finance", "icon": "📊", "url": "https://financial-risk-bob-dev.streamlit.app/"},
-    {"name": "Reputation Risk Analyzer", "description": "Media sentiment, reputation risk dashboard — scrape, score, and monitor company news coverage", "icon": "🛡️", "url": "https://reputation-risk-bob-dev.streamlit.app/"},
+    {"name": "Reputation Risk Analyzer", "description": "Media sentiment, reputation risk dashboard", "icon": "🛡️", "url": "https://reputation-risk-bob-dev.streamlit.app/"},
     {"name": "Market Risk Analyzer", "description": "AI & Emerging Technologies  •  Intelligent Market Intelligence Solutions", "icon": "📈", "url": "https://market-risk-bob-dev.streamlit.app/"},
     {"name": "ESG Risk Analyzer", "description": "Real-time Environmental, Social, and Governance (ESG) monitoring and scoring", "icon": "🌐", "url": "https://esg-risk-bob-dev.streamlit.app/"},
     {"name": "Application 05", "description": "Add a short description for this application.", "icon": "📈", "url": "https://REPLACE-WITH-LINK-05"},
