@@ -209,7 +209,7 @@ st.markdown(
 
     .app-title {{
         color: {BOB_NAVY};
-        font-size: 1.0rem;
+        font-size: 0.9rem;
         font-weight: 800;
         line-height: 1.3;
         overflow-wrap: anywhere;
