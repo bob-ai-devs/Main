@@ -29,6 +29,7 @@ APP_LINKS = [
     {"name": "Enterprise Explainable Credit Risk", "description": "Credit Risk Intelligence Platform", "icon": "🏦", "url": "https://ecrf-bob-dev.streamlit.app/"},
     {"name": "Emotion-Aware Collections & Service Calls", "description": "Record a call snippet \u2192 real-time voice-stress read", "icon": "🎙️", "url": "https://emotion-aware-bob-dev.streamlit.app/"},
     {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
+    {"name": "News Risk Intelligence", "description": "Weekly headlines and impact across the Basel III and RBI risk framework", "icon": "📰", "url": "https://risk-intelligence-bob-dev.streamlit.app/"},
 ]
 
 # -----------------------------
@@ -323,12 +324,12 @@ else:
             positions = [1]       # 2nd of 3
         
         elif count == 2:
-            cols = st.columns([1, 2, 2, 1], gap="medium")
+            cols = st.columns([1, 1, 1, 1], gap="medium")
             positions = [1, 2]    # 2nd and 3rd of 4
         
         elif count == 3:
-            cols = st.columns([1, 1, 1], gap="medium")
-            positions = [0, 1, 2] # 1st to 3rd of 3
+            cols = st.columns([0.5, 1, 1, 1, 0.5], gap="medium")
+            positions = [1, 2, 3] # 2nd to 4th of 5
         
         else:
             cols = st.columns(4, gap="medium")
