@@ -321,8 +321,9 @@ else:
         cols = st.columns(4, gap="medium")
         if count == 1:
             cols = st.columns(5, gap="medium")
+            cols = cols[3]
 
-        for col, app in zip(cols[3], row_apps):
+        for col, app in zip(cols, row_apps):
             with col:
                 # Do not render unconfigured placeholder links as working buttons.
                 url = app["url"].strip()
